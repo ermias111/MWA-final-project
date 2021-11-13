@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 
 const favicon = require('serve-favicon');
 const fs = require('fs');
-const fileRouter = require('./routes/files')
+const fileRouter = require('./routes/files');
+const racingRouter = requrie('./routes/racing');
 
 
 const app = express();
@@ -36,6 +37,8 @@ app.use(cors());
 
 
 app.use('/file', fileRouter);
+
+app.use('/racing', racingRouter);
 
 
 app.use(function (err, req, res, next) {
