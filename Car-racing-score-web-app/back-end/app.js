@@ -1,4 +1,5 @@
 var express = require('express');
+require('dotenv').config({path: __dirname + '/.env'});
 const cors = require('cors');
 const logger = require('morgan');
 const path = require('path')
@@ -10,7 +11,10 @@ const fileRouter = require('./routes/files')
 
 
 const app = express();
-mongoose.connect("")
+const database = process.env['DATABASE']
+const password = process.env['PASSWORD']
+
+mongoose.connect(`mongodb+srv://ermiyas:${password}@cluster0.ciykw.mongodb.net/${database}?retryWrites=true&w=majority`)
 
 
 app.use(favicon(path.join(__dirname
