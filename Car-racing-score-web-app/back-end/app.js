@@ -1,4 +1,4 @@
-var express = requrie('express');
+var express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 const path = require('path')
@@ -11,18 +11,19 @@ const app = express();
 
 
 app.use(favicon(path.join(__dirname
-    , 'public',
+    , 'public/images',
     'favicon.ico')));
 app.use(logger('common', {
     stream: fs.createWriteStream('./access.log', {flags: 'a'})
 }))
 app.use(logger('dev'))
 app.use( express.static(__dirname + '/public/images'))
+app.use('/images', express.static(__dirname + '/public/images'));
 app.use(express.json());
 app.use(cors());
 
 
-app.use('/images', fileRouter);
+app.use('/file', fileRouter);
 
 
 app.use(function (err, req, res, next) {
