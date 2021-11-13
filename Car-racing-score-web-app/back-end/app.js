@@ -2,12 +2,15 @@ var express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 const path = require('path')
+const mongoose = require('mongoose');
+
 const favicon = require('serve-favicon');
 const fs = require('fs');
 const fileRouter = require('./routes/files')
 
 
 const app = express();
+mongoose.connect("")
 
 
 app.use(favicon(path.join(__dirname
