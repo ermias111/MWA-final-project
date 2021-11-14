@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-header',
   template: `
     <p>
-      <button [routerLink]="['/home/userhome']" >login</button>
-      login works!
+      header works!
     </p>
   `,
   styles: [
   ]
 })
-export class LoginComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
   constructor() { }
 

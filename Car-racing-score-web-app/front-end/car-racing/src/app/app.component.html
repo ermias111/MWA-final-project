@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-    <div>
-      <button [routerLink]="['auth/login']" >Login</button>
-      <button [routerLink]="['auth/signup']" >Signup</button>
-    </div>
-    <router-outlet></router-outlet>
-</body>
-</html>
+<app-layout *ngIf="isLoggedIn$ | async; else notAuthorized">
+  <router-outlet></router-outlet>
+</app-layout>
+
+<ng-template #notAuthorized>
+  <router-outlet></router-outlet>
+</ng-template>

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-signup',
   template: `
     <p>
+    <button [routerLink]="['/home/userhome']" >login</button>
       signup works!
     </p>
   `,

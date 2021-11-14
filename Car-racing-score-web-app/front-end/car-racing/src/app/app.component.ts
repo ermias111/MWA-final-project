@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'car-racing';
+  isLoggedIn$!: Observable<Boolean>;
+
+  constructor(){
+    this.isLoggedIn$ = of(false);
+  }
+
+  
 }
