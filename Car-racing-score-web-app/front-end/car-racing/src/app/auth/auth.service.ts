@@ -11,6 +11,7 @@ import { signupI } from './dto/signupDto';
 })
 export class AuthService {
   isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  isAdmin$ = new BehaviorSubject<boolean>(false);
   subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -25,6 +26,10 @@ export class AuthService {
       if(res) {
         
         this.isLoggedIn$.next(true);
+
+        // if user is admin
+        // this.isAdmin$.next(true);
+
         // if admin redirect to admindashboard and if user redirect to user-home
         // let role  = 'admin';
 
