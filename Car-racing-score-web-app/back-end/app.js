@@ -7,8 +7,9 @@ const mongoose = require('mongoose');
 
 const favicon = require('serve-favicon');
 const fs = require('fs');
-const fileRouter = require('./routes/files')
-
+const fileRouter = require('./routes/files');
+const racingRouter = require('./routes/racing');
+const auth = require('./routes/auth');
 
 const app = express();
 const database = process.env['DATABASE']
@@ -34,8 +35,11 @@ app.use('/images', express.static(__dirname + '/public/images'));
 app.use(express.json());
 app.use(cors());
 
+app.use('/auth', auth);
 
 app.use('/file', fileRouter);
+
+app.use('/racing', racingRouter);
 
 
 app.use(function (err, req, res, next) {
