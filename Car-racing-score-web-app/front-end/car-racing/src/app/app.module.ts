@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 
@@ -8,7 +10,12 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+      {path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)}
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
