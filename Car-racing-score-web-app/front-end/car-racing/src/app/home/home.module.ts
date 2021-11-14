@@ -9,6 +9,7 @@ import { HeaderComponent } from './header.component';
 import { FooterComponent } from './footer.component';
 import { LayoutComponent } from './layout.component';
 import { AuthGuard } from '../@core/guards';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatSliderModule
   ],
 
   exports: [
