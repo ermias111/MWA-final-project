@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { WelcomePageComponent } from './home/welcome-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { WelcomePageComponent } from './home/welcome-page.component';
         path: 'home', 
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       }
-    ])
+    ]),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
