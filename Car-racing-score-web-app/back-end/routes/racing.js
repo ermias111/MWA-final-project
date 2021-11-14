@@ -1,15 +1,15 @@
-const express = requrie('express');
+const express = require('express');
 const router = express.Router();
 const { handleDelete, handlePost, handleGetById, handleGetAll } = require('../controller/racing');
+const { verifyUserToken, isUser, isAdmin } = require('../security/authorize');
 
+router.get('/',verifyUserToken, handleGetAll)
 
-router.get('/', handleGetAll)
+router.get('/:id',verifyUserToken, handleGetById)
 
-router.get('/:id', handleGetById)
+router.post('/', verifyUserToken, isAdmin, handlePost)
 
-router.post('/', handlePost)
-
-router.delete('/:id', handleDelete)
+router.delete('/:id', verifyUserToken, isAdmin, handleDelete)
 
 
 module.exports = router;
