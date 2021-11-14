@@ -3,22 +3,50 @@ import { CommonModule } from '@angular/common';
 import { UserHomeComponent } from './user-home.component';
 import { ResultComponent } from './result.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { WelcomePageComponent } from './welcome-page.component';
+import { HeaderComponent } from './header.component';
+import { FooterComponent } from './footer.component';
+import { LayoutComponent } from './layout.component';
+import { AuthGuard } from '../@core/guards';
+import { MatSliderModule } from '@angular/material/slider';
 
 
+const routes: Routes = [
+  {
+    path: 'userhome',
+    component: UserHomeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admindashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'welcome',
+    component: WelcomePageComponent
+  }
+]
 
 @NgModule({
   declarations: [
     UserHomeComponent,
     ResultComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    WelcomePageComponent,
+    HeaderComponent,
+    FooterComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {path: 'userhome', component:UserHomeComponent },
-      {path: 'admindashboard', component: AdminDashboardComponent},
-    ])
+    RouterModule.forChild(routes),
+    MatSliderModule
+  ],
+
+  exports: [
+    LayoutComponent
   ]
 })
 export class HomeModule { }

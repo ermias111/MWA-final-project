@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-footer',
   template: `
     <p>
-      <button [routerLink]="['/home/userhome']" >login</button>
-      login works!
+      footer works!
     </p>
   `,
   styles: [
   ]
 })
-export class LoginComponent implements OnInit {
+export class FooterComponent implements OnInit {
 
   constructor() { }
 

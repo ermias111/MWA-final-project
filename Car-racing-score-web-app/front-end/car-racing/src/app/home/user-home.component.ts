@@ -5,9 +5,10 @@ import { RacingService } from './racing.service';
   selector: 'app-user-home',
   template: `
       <div>
-        <ul *ngFor="let racing of racings"> 
+        <!-- <ul *ngFor="let racing of racings"> 
           <li>{{racing.date}} | {{racing.location}}</li>
-        </ul>
+        </ul> -->
+        user home works!
       </div>
   `,
   styles: [
