@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserHomeComponent } from './user-home.component';
 import { ResultComponent } from './result.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,7 +14,11 @@ import { AdminDashboardComponent } from './admin-dashboard.component';
     AdminDashboardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild([
+      {path: 'userhome', component:UserHomeComponent },
+      {path: 'admindashboard', component: AdminDashboardComponent},
+    ])
   ]
 })
 export class HomeModule { }

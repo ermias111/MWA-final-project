@@ -1,18 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { RacingService } from './racing.service';
 
 @Component({
   selector: 'app-user-home',
   template: `
-    <p>
-      user-home works!
-    </p>
+      <div>
+        <ul *ngFor="let racing of racings"> 
+          <li>{{racing.date}} | {{racing.location}}</li>
+        </ul>
+      </div>
   `,
   styles: [
   ]
 })
 export class UserHomeComponent implements OnInit {
+  racings: any;
 
-  constructor() { }
+  constructor(racingService: RacingService) { 
+      this.racings =  racingService.getRacings()
+  }
 
   ngOnInit(): void {
   }

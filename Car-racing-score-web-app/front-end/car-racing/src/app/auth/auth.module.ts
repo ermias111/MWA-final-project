@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './login.component';
 import { SignupComponent } from './signup.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -11,7 +12,13 @@ import { SignupComponent } from './signup.component';
     SignupComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    RouterModule.forChild([
+      {path: 'login', component: LoginComponent},
+      {path: 'signup', component: SignupComponent},
+    ])
+  ],
+
+  bootstrap: [LoginComponent]
 })
 export class AuthModule { }
