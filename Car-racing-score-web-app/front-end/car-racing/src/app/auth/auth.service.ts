@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { loginI } from './dto/loginDto';
 import { signupI } from './dto/signupDto';
+import { UserResponse } from './dto/userResponse';
+import { getItem, removeItem, setItem, StorageItem } from '../@core/utils';
+
 
 
 @Injectable({
@@ -21,30 +24,25 @@ export class AuthService {
   }
 
   login(loginDto: loginI){
-    this.subscription = this.http.post('http://localhost:3000/auth/login', loginDto)
+    this.subscription = this.http.post<UserResponse>('http://localhost:3000/auth/login', loginDto)
     .subscribe((res) => {
       if(res) {
         
         this.isLoggedIn$.next(true);
+        setItem(StorageItem.Auth, res.token);
 
-        // if user is admin
-        // this.isAdmin$.next(true);
-
-        // if admin redirect to admindashboard and if user redirect to user-home
-        // let role  = 'admin';
-
-
-        // if(role === 'admin'){
-        //   this.router.navigate(['/home/admindashboard']);
-        // }else{
-        //   this.router.navigate(['/home/userhome']);
-        // }
+        if(res.payload.role === 'admin'){
+          this.isAdmin$.next(true);
+          this.router.navigate(['/home/admindashboard']);
+        }else{
+          this.router.navigate(['/home/userhome']);
+        }
         
       }
     })
   }
 
-  signup(signupDto: signupI){
+  signUp(signupDto: signupI){
     this.subscription = this.http.post('http://localhost:3000/auth/signup', signupDto)
     .subscribe((res) => {
       if(res) {
@@ -53,8 +51,10 @@ export class AuthService {
     })
   }
 
-  signout(){
+  signOut(){
+    removeItem(StorageItem.Auth);
     this.isLoggedIn$.next(false);
+    this.router.navigate(['home/welcome'])
   }
 
   ngOnDestroy(){
