@@ -15,8 +15,8 @@ async function handleLogin(req, res, next){
                     // Create and assign token
                     let userInfo = { id: user._id, role: user.role };
                     const token = jwt.sign(userInfo, process.env['TOKEN_SECRET']);
-                    const {password, ...payload} = user._doc;
-                    res.status(200).header("auth-token", token).send({
+                    const {password, __v, _id, ...payload} = user._doc;
+                    res.status(200).header("auth-token", token).json({
                         status: 'success', 
                         token: token ,
                         payload: payload
