@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-result',
   template: `
     <p>
-      result works!
+      <h1>result works!</h1>
     </p>
+    
   `,
   styles: [
   ]
