@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     HttpClientModule,
     HomeModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       {
         path: '',
@@ -29,8 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         path: 'home', 
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       }
-    ]),
-    BrowserAnimationsModule
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
