@@ -6,7 +6,7 @@ function verifyUserToken(req, res, next){
     if (!token) return res.status(401).send("Access Denied / Unauthorized request");
         
     try {
-        token = token.split(' ')[1] // Remove Bearer from string
+        token = token.split(' ')[2] // Remove Bearer from string
         if (token === 'null' || !token) return res.status(401).send('Unauthorized request');
         
         let verifiedUser = jwt.verify(token, process.env['TOKEN_SECRET']);  

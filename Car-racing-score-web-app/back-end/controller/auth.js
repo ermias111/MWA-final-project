@@ -32,13 +32,17 @@ async function handleLogin(req, res, next){
 }
 
 async function handleRegister(req, res, next){
-    try{
-        await User.findOne({userName: req.body.userName}, (err, data) => {
-            if(data){
-                return next(new Error("username already exists!"));
-            } 
-        })
     
+
+    try{
+        
+        // await User.findOne({userName: req.body.userName}, (err, data) => {
+        //     if(data){
+        //         return next(new Error("username already exists!"));
+        //     }else{
+        //         return next(new Error("error"))
+        //     }
+        // })
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
     
@@ -51,14 +55,21 @@ async function handleRegister(req, res, next){
             profileImage: '', 
             role: req.body.role
         })
+
     
         await user.save((err, registeredUser) => {
             if(err){
                 console.log(err);
             } else {
-                let payload = { id: registeredUser._id, user_type_id: req.body.user_type_id || 0 };
-                const token = jwt.sign(payload, process.env['TOKEN_SECRET']);
-                res.status(200).send({token});
+                let payload_for_token = { id: registeredUser._id, user_type_id: req.body.user_type_id || 0 };
+                console.log(registeredUser);
+                let { __v, _id, password, ...payload } = registeredUser;
+                const token = jwt.sign(payload_for_token, process.env['TOKEN_SECRET']);
+                res.status(200).header("auth-token", token).json({
+                    status: 'success', 
+                    token: token ,
+                    payload: payload
+                });
             }
         })
     }catch(err){
