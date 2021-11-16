@@ -26,7 +26,6 @@ export interface ResultElement {
             {{result.rank}}.  {{result.driverDetail.name}}
             {{result.finishTime }}
             </mat-list-option>
-            <button *ngIf='isAdmin$' mat-button (click)="openDialog(racing._id)">Add result</button>
           </mat-selection-list>
 <!-- 
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
@@ -49,6 +48,12 @@ export interface ResultElement {
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table> -->
         </mat-card-content>
+        <mat-card-actions>
+          <button *ngIf='isAdmin$' mat-button (click)="openDialog(racing._id)">Add result</button>
+          <button *ngIf='isAdmin$' mat-button (click)='delete(racing._id)'>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
       </mat-card>
     </p>
   `,
@@ -78,6 +83,7 @@ export class ResultComponent implements OnInit {
   @Input() racing:any;
   // dataSource: ResultElement[];
   constructor(
+      private racingService: RacingService,
       private authService: AuthService,
       public dialog: MatDialog
     ) { 
@@ -89,7 +95,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  displayedColumns: string[] = ['rank', 'name', 'finish time'];
+  // displayedColumns: string[] = ['rank', 'name', 'finish time'];
 
   openDialog(racingId: Number) {
     const dialogRef = this.dialog.open(ResultFormComponent, {
@@ -101,4 +107,7 @@ export class ResultComponent implements OnInit {
     });
   }
 
+  delete(id: any){
+    this.racingService.deleteRacing(id);
+  }
 }

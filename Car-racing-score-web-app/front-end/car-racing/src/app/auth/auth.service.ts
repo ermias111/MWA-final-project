@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { loginI } from './dto/loginDto';
 import { signupI } from './dto/signupDto';
-import { UserResponse } from './dto/userResponse';
+import { UserResponse, SignupResponse } from './dto/userResponse';
 import { getItem, removeItem, setItem, StorageItem } from '../@core/utils';
-
 
 
 @Injectable({
@@ -43,10 +42,19 @@ export class AuthService {
   }
 
   signUp(signupDto: signupI){
-    this.subscription = this.http.post('http://localhost:3000/auth/signup', signupDto)
+    this.subscription = this.http.post<UserResponse>('http://localhost:3000/auth/signup', signupDto)
     .subscribe((res) => {
       if(res) {
         this.isLoggedIn$.next(true);
+        setItem(StorageItem.Auth, res.token);
+        console.log(res.payload)
+        if(res.payload.role === 'admin'){
+          this.isAdmin$.next(true);
+          this.router.navigate(['/home/admindashboard']);
+        }else{
+          this.router.navigate(['/home/userhome']);
+        }
+        
       }
     })
   }
@@ -54,7 +62,7 @@ export class AuthService {
   signOut(){
     removeItem(StorageItem.Auth);
     this.isLoggedIn$.next(false);
-    this.router.navigate(['home/welcome'])
+    this.router.navigate(['auth/login'])
   }
 
   ngOnDestroy(){

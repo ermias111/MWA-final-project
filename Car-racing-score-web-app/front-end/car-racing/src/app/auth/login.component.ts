@@ -17,7 +17,7 @@ import { loginI } from './dto/loginDto';
           <form [formGroup]="form" (ngSubmit)="submit()">
             <p>
               <mat-form-field>
-                <input type="text" matInput placeholder="Username" formControlName="username">
+                <input type="text" matInput placeholder="Username" formControlName="userName">
               </mat-form-field>
             </p>
 
@@ -31,10 +31,11 @@ import { loginI } from './dto/loginDto';
               {{ error }}
             </p>
 
+            
             <div class="button">
               <button type="submit" mat-button>Login</button>
             </div>
-
+            <a [routerLink]="['/auth/signup']">create new account</a>
           </form>
         </mat-card-content>
     </mat-card>
@@ -70,33 +71,42 @@ import { loginI } from './dto/loginDto';
         justify-content: flex-end;
       }
 
+      a { 
+        text-decoration: none;
+      }
+
     `
   ]
 })
 export class LoginComponent implements OnInit {
-
+  loginData!: loginI;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  loginData = {
-    userName: "kygo88",
-    password: "12345"
-  }
+  // remove
+  // loginData = {
+  //   userName: "kygo88",
+  //   password: "12345"
+  // }
   
-  login(loginData: loginI){
-    this.authService.login(loginData);
+  async login(loginData: loginI){
+    this.authService.login(loginData) ;
+    if(!this.authService.isLoggedIn$.getValue()){ 
+      this.error = "invalid login"  
+    }
   }
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    userName: new FormControl(''),
     password: new FormControl(''),
   });
 
   submit() {
     if (this.form.valid) {
       this.submitEM.emit(this.form.value);
+      this.loginData = this.form.value;
       this.login(this.loginData)
     }
   }

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { WelcomePageComponent } from './home/welcome-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './auth/login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule.forRoot([
       {
         path: '',
-        component: WelcomePageComponent
+        component: LoginComponent
       },
       {
         path: 'auth', 
@@ -30,6 +31,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         path: 'home', 
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       }
+      // {
+      //   path: '**', 
+      //   component: PageNotFoundComponent 
+      // }
     ])
   ],
   providers: [],

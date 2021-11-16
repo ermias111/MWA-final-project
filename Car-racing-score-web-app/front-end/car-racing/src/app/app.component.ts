@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AuthService } from './auth/auth.service';
+import { getItem, removeItem, setItem, StorageItem } from './@core/utils';
+
 
 @Component({
   selector: 'app-root',
@@ -9,10 +11,14 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit{
   isLoggedIn$!:Observable<Boolean>;
+  // isThereASession$: Observable<unknown> = of(true);
 
   constructor(private authService: AuthService){}
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+    // if(getItem(StorageItem.Auth)){
+    //   this.isThereASession$ = of(true);
+    // }
   }
 }
