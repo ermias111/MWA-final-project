@@ -40,31 +40,25 @@ export class AuthService {
     }catch(err){
       console.log(err)
     }
-    
-    
-      
-        
-        
   }
 
-  signUp(signupDto: signupI){
-    this.subscription = this.http.post<UserResponse>('http://localhost:3000/auth/signup', signupDto)
-    .subscribe((res) => {
-      if(res) {
-        this.isLoggedIn$.next(true);
-        setItem(StorageItem.Auth, res.token);
-        setItem(StorageItem.FirstName, res?.payload.firstName)
+  async signUp(signupDto: signupI){
+    try{
+      let response : UserResponse | undefined = await this.http.post<UserResponse>('http://localhost:3000/auth/signup', signupDto).toPromise()
+      this.isLoggedIn$.next(true);
+      setItem(StorageItem.Auth, response!.token);
+      setItem(StorageItem.FirstName, response?.payload.firstName)
 
-        console.log(res.payload)
-        if(res.payload.role === 'admin'){
-          this.isAdmin$.next(true);
-          this.router.navigate(['/home/admindashboard']);
-        }else{
-          this.router.navigate(['/home/userhome']);
-        }
-        
+      // console.log(response!.payload)
+      if(response!.payload.role === 'admin'){
+        this.isAdmin$.next(true);
+        this.router.navigate(['/home/admindashboard']);
+      }else{
+        this.router.navigate(['/home/userhome']);
       }
-    })
+    }catch(err){
+      console.log(err)
+    }
   }
 
   signOut(){

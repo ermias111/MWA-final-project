@@ -122,7 +122,6 @@ export class SignupComponent implements OnInit {
     
     if (this.form.valid) {
       this.submitEM.emit(this.form.value);
-      console.log(signupData)
       this.signup(signupData)
     }
   }
@@ -140,8 +139,11 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  signup(signupData: signupI) {
-    this.authService.signUp(signupData)
+  async signup(signupData: signupI) {
+    await this.authService.signUp(signupData);
+    if(!this.authService.isLoggedIn$.getValue()){ 
+      this.error = "username already exists";  
+    }
   }
 
   ngOnInit(): void {

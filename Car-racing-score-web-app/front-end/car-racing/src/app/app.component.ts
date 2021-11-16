@@ -11,14 +11,10 @@ import { getItem, removeItem, setItem, StorageItem } from './@core/utils';
 })
 export class AppComponent implements OnInit{
   isLoggedIn$!:Observable<boolean>;
-  // isThereASession$: Observable<unknown> = of(true);
 
   constructor(private authService: AuthService){}
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
-    // if(getItem(StorageItem.Auth)){
-    //   this.isThereASession$ = of(true);
-    // }
   }
 }
