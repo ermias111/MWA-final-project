@@ -12,8 +12,8 @@ import { getItem, removeItem, setItem, StorageItem } from '../@core/utils';
   providedIn: 'root'
 })
 export class AuthService {
-  isLoggedIn$ = new BehaviorSubject<boolean>(false);
-  isAdmin$ = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = new BehaviorSubject<boolean>(!!getItem(StorageItem.Auth));
+  isAdmin$ = new BehaviorSubject<boolean>(!!getItem(StorageItem.Auth));
   subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -22,23 +22,29 @@ export class AuthService {
     return this.isLoggedIn$.getValue();
   }
 
-  login(loginDto: loginI){
-    this.subscription = this.http.post<UserResponse>('http://localhost:3000/auth/login', loginDto)
-    .subscribe((res) => {
-      if(res) {
-        
-        this.isLoggedIn$.next(true);
-        setItem(StorageItem.Auth, res.token);
+  async login(loginDto: loginI){
+    try{
+      let response : UserResponse | undefined = await this.http.post<UserResponse>('http://localhost:3000/auth/login', loginDto).toPromise();
+      this.isLoggedIn$.next(true);
+        setItem(StorageItem.Auth, response!.token);
 
-        if(res.payload.role === 'admin'){
+        // Since we are not using redux we used the local storage to save user state
+        setItem(StorageItem.FirstName, response?.payload.firstName)
+
+        if(response!.payload.role === 'admin'){
           this.isAdmin$.next(true);
           this.router.navigate(['/home/admindashboard']);
         }else{
           this.router.navigate(['/home/userhome']);
         }
+    }catch(err){
+      console.log(err)
+    }
+    
+    
+      
         
-      }
-    })
+        
   }
 
   signUp(signupDto: signupI){
@@ -47,6 +53,8 @@ export class AuthService {
       if(res) {
         this.isLoggedIn$.next(true);
         setItem(StorageItem.Auth, res.token);
+        setItem(StorageItem.FirstName, res?.payload.firstName)
+
         console.log(res.payload)
         if(res.payload.role === 'admin'){
           this.isAdmin$.next(true);

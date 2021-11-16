@@ -18,6 +18,7 @@ import { loginI } from './dto/loginDto';
             <p>
               <mat-form-field>
                 <input type="text" matInput placeholder="Username" formControlName="userName">
+                
               </mat-form-field>
             </p>
 
@@ -84,15 +85,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  // remove
-  // loginData = {
-  //   userName: "kygo88",
-  //   password: "12345"
-  // }
   
   async login(loginData: loginI){
-    this.authService.login(loginData) ;
+    await this.authService.login(loginData) ;
     if(!this.authService.isLoggedIn$.getValue()){ 
       this.error = "invalid login"  
     }

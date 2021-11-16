@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { signupI } from './dto/signupDto';
 
@@ -29,12 +29,18 @@ import { signupI } from './dto/signupDto';
             <p>
               <mat-form-field>
                 <input type="text" matInput placeholder="Username" formControlName="userName">
+                <mat-error *ngIf="!form.get('userName')?.valid">
+                  Invalid Username
+                </mat-error>
               </mat-form-field>
             </p>
 
             <p>
               <mat-form-field>
                 <input type="password" matInput placeholder="Password" formControlName="password">
+                <mat-error *ngIf="!form.get('password')?.valid">
+                  password length must be more than 8
+                </mat-error>
               </mat-form-field>
             </p>
 
@@ -47,6 +53,7 @@ import { signupI } from './dto/signupDto';
             <div class="button">
               <button type="submit" [disabled]='this.form.invalid' mat-button>Signup</button>
             </div>
+            <a [routerLink]="['/auth/login']">login</a>
 
           </form>
         </mat-card-content>
@@ -58,7 +65,10 @@ import { signupI } from './dto/signupDto';
         justify-content: center;
         margin: 100px 0px;
       }
-
+      
+      a:link{
+        text-decoration: none;
+      }
       .mat-form-field {
         width: 100%;
         min-width: 300px;
@@ -86,12 +96,7 @@ import { signupI } from './dto/signupDto';
   ]
 })
 export class SignupComponent implements OnInit {
-  form: FormGroup = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    userName: new FormControl(''),
-    password: new FormControl(''),
-  });
+  form: FormGroup ;
 
 
   // signupData = {
@@ -125,7 +130,15 @@ export class SignupComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
   
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private fb :FormBuilder) { 
+    this.form = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      userName: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      
+    });
+  }
 
   signup(signupData: signupI) {
     this.authService.signUp(signupData)
