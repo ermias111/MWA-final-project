@@ -10,7 +10,7 @@ import { getItem, removeItem, setItem, StorageItem } from './@core/utils';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  isLoggedIn$!:Observable<Boolean>;
+  isLoggedIn$!:Observable<boolean>;
   // isThereASession$: Observable<unknown> = of(true);
 
   constructor(private authService: AuthService){}
