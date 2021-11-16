@@ -11,6 +11,8 @@ import { LayoutComponent } from './layout.component';
 import { AuthGuard } from '../@core/guards';
 import { MaterialModule } from '../material/material.module';
 import { CoreModule } from '../@core/core.module';
+import { RacingFormComponent } from './racing-form.component';
+import { ResultFormComponent } from './result-form.component';
 
 
 
@@ -39,7 +41,9 @@ const routes: Routes = [
     WelcomePageComponent,
     HeaderComponent,
     FooterComponent,
-    LayoutComponent
+    LayoutComponent,
+    RacingFormComponent,
+    ResultFormComponent
   ],
   imports: [
     CommonModule,

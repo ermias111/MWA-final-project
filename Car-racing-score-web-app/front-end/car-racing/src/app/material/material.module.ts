@@ -7,6 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatTableModule } from '@angular/material/table'
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
 const modules = [
@@ -16,7 +20,10 @@ const modules = [
   ReactiveFormsModule,
   MatListModule,
   MatToolbarModule,
-  MatIconModule
+  MatIconModule,
+  MatTabsModule,
+  MatDialogModule,
+  MatTableModule
 ];
 
 
@@ -30,7 +37,10 @@ const modules = [
     MatListModule,
     ReactiveFormsModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatTableModule
   ],
   exports: modules
 })

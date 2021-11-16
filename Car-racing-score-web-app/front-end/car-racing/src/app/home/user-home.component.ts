@@ -8,9 +8,8 @@ import { RacingService } from './racing.service';
   template: `
       <div>
         <div *ngFor="let racing of racings"> 
-          <app-result [racing]="racing" ></app-result>
+          <app-result [racing]="racing"></app-result>
         </div>
-        user home works!
       </div>
   `,
   styles: [`
@@ -22,13 +21,18 @@ export class UserHomeComponent implements OnInit {
   subscription: Subscription = new Subscription();
 
 
-  constructor(racingService: RacingService) { 
-      this.subscription =  racingService.getRacings().subscribe((res) =>{
-        this.racings = res;
-      })
+  constructor(private racingService: RacingService) { 
+      this.load();
+  }
+
+  load(){
+    this.subscription = this.racingService.getRacings().subscribe((res) =>{
+      this.racings = res;
+    })
   }
 
   ngOnInit(): void {
+    this.load();
   }
 
   ngOnDestroy(){
