@@ -18,7 +18,10 @@ import { Subscription } from 'rxjs';
       <p>
         <mat-form-field >
           <mat-label>Date</mat-label>
-          <input matInput formControlName="date">
+          <!-- <input matInput formControlName="date"> -->
+          <input matInput [matDatepicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker> 
         </mat-form-field>
       </p>  
       <div>
