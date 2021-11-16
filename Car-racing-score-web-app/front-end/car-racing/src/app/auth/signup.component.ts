@@ -45,7 +45,7 @@ import { signupI } from './dto/signupDto';
             </p>
 
             <div class="button">
-              <button type="submit" mat-button>Signup</button>
+              <button type="submit" [disabled]='this.form.invalid' mat-button>Signup</button>
             </div>
 
           </form>
@@ -94,19 +94,31 @@ export class SignupComponent implements OnInit {
   });
 
 
-  signupData = {
-    firstName: "kygo88",
-    lastName: "12345",
-    userName: "kygo88",
-    password: "12345",
-    role: 'user'
-  }
+  // signupData = {
+  //   firstName: "Hlina",
+  //   lastName: "Adem",
+  //   userName: "hli",
+  //   password: "12345",
+  //   role: 'user'
+  // }
+  
   
 
   submit() {
+    let signupData = {
+      firstName: this.form.get(['firstName'])?.value,
+      lastName: this.form.get(['lastName'])?.value,
+      userName: this.form.get(['userName'])?.value,
+      password: this.form.get(['password'])?.value,
+      email: '',
+      profileImage: '',
+      role: 'user'
+    }
+    
     if (this.form.valid) {
       this.submitEM.emit(this.form.value);
-      this.signup(this.signupData)
+      console.log(signupData)
+      this.signup(signupData)
     }
   }
   @Input() error: string | null | undefined;
