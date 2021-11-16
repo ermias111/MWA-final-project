@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { RacingI } from './dto/racingI';
@@ -63,6 +63,8 @@ import { DialogData } from './dto/DialogData';
 export class ResultFormComponent implements OnInit {
   resultForm!: FormGroup;
   @Input() racingId: any;
+  @Output() changeOnAddResult: EventEmitter<number> = new EventEmitter<number>();
+
   subscription: Subscription = new Subscription();
 
   
@@ -83,7 +85,7 @@ export class ResultFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submit(){
+  async submit(){
     let resultInput = {
       rank: this.resultForm.get(['rank'])?.value,
       finishTime: this.resultForm.get(['finishTime'])?.value,
@@ -99,9 +101,8 @@ export class ResultFormComponent implements OnInit {
       }
     }
 
+    await this.racingService.addResult(this.data.racingId, resultInput);
     this.dialogRef.close()
-    console.log(this.data.racingId)
-    this.racingService.addResult(this.data.racingId, resultInput);
   }
 
   ngOnDestroy(): void {

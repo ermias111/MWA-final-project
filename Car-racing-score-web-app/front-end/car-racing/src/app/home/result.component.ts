@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../auth/auth.service';
 import { RacingI } from './dto/racingI';
 import { RacingService } from './racing.service';
@@ -21,14 +22,14 @@ export interface ResultElement {
           <mat-card-subtitle>{{racing.date.split('T')[0]}}</mat-card-subtitle>
         </mat-card-title-group>
         <mat-card-content>
-          <mat-selection-list [multiple]="false">
+          <!-- <mat-selection-list [multiple]="false">
             <mat-list-option *ngFor="let result of racing.result" [value]="result">
             {{result.rank}}.  {{result.driverDetail.name}}
             {{result.finishTime }}
             </mat-list-option>
-          </mat-selection-list>
-<!-- 
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+          </mat-selection-list> -->
+
+         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
               <ng-container matColumnDef="rank">
                 <th mat-header-cell *matHeaderCellDef>Rank</th>
                 <td mat-cell *matCellDef="let element">{{element.rank}}</td>
@@ -36,17 +37,17 @@ export interface ResultElement {
 
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                <td mat-cell *matCellDef="let element">{{element.driverDetail.name}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="finishTIme">
+              <ng-container matColumnDef="finishtime">
                 <th mat-header-cell *matHeaderCellDef>Finish time</th>
                 <td mat-cell *matCellDef="let element">{{element.finishTime}}</td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table> -->
+          </table>
         </mat-card-content>
         <mat-card-actions>
           <button *ngIf='isAdmin$' mat-button (click)="openDialog(racing._id)">Add result</button>
@@ -65,7 +66,7 @@ export interface ResultElement {
         margin-left: 12%
       }
 
-      /* .demo-table {
+      .demo-table {
         width: 100%;
       }
 
@@ -75,27 +76,28 @@ export interface ResultElement {
 
       .demo-button + .demo-button {
         margin-left: 8px;
-      } */
+      }
     `
   ]
 })
 export class ResultComponent implements OnInit {
   @Input() racing:any;
-  // dataSource: ResultElement[];
+  @Output() changeOnRacing: EventEmitter<number> = new EventEmitter<number>();
+  dataSource: any;
+  @ViewChild(MatTable) table!: MatTable<any>;
+  
   constructor(
       private racingService: RacingService,
       private authService: AuthService,
       public dialog: MatDialog
     ) { 
-      // console.log(this.racing)
-      // this.dataSource = this.racing.result;
-      // console.log(this.dataSource);
     }
   isAdmin$ = this.authService.isAdmin$.getValue();
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.racing.result);
   }
-  // displayedColumns: string[] = ['rank', 'name', 'finish time'];
+  displayedColumns: string[] = ['rank', 'name', 'finishtime'];
 
   openDialog(racingId: Number) {
     const dialogRef = this.dialog.open(ResultFormComponent, {
@@ -103,11 +105,18 @@ export class ResultComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      this.racingService.getRacing(this.racing._id).then((res) => {
+        this.racing = res;
+        this.dataSource.data = this.racing.result;
+        this.table.renderRows();
+      });
+      
     });
   }
 
   delete(id: any){
-    this.racingService.deleteRacing(id);
+    this.racingService.deleteRacing(id).subscribe((res) => {
+      this.changeOnRacing.emit();
+    });
   }
 }

@@ -8,7 +8,7 @@ import { RacingService } from './racing.service';
   template: `
       <div>
         <div *ngFor="let racing of racings"> 
-          <app-result [racing]="racing"></app-result>
+          <app-result [racing]="racing" (changeOnRacing)="this.load()"></app-result>
         </div>
       </div>
   `,
@@ -22,7 +22,7 @@ export class UserHomeComponent implements OnInit {
 
 
   constructor(private racingService: RacingService) { 
-      this.load();
+      // this.load();
   }
 
   load(){
@@ -31,7 +31,7 @@ export class UserHomeComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.load();
   }
 
