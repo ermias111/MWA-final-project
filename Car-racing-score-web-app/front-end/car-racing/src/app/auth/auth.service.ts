@@ -14,7 +14,7 @@ import jwt_decode from 'jwt-decode';
 })
 export class AuthService {
   isLoggedIn$ = new BehaviorSubject<boolean>(!!getItem(StorageItem.Auth));
-  isAdmin$ = new BehaviorSubject<boolean>(!!getItem(StorageItem.Auth));
+  isAdmin$ = new BehaviorSubject<boolean>(!!getItem(StorageItem.isAdmin));
   subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -36,9 +36,11 @@ export class AuthService {
         
         if(decoded.role === 'admin'){
           this.isAdmin$.next(true);
+          setItem(StorageItem.isAdmin, true);
           this.router.navigate(['/home/admindashboard']);
         }else{
           this.isAdmin$.next(false);
+          setItem(StorageItem.isAdmin, false);
           this.router.navigate(['/home/userhome']);
         }
     }catch(err){
@@ -58,9 +60,11 @@ export class AuthService {
       // console.log(response!.payload)
       if(decoded.role === 'admin'){
         this.isAdmin$.next(true);
+        setItem(StorageItem.isAdmin, true);
         this.router.navigate(['/home/admindashboard']);
       }else{
         this.isAdmin$.next(false);
+        setItem(StorageItem.isAdmin, false);
         this.router.navigate(['/home/userhome']);
       }
     }catch(err){
@@ -70,7 +74,10 @@ export class AuthService {
 
   signOut(){
     removeItem(StorageItem.Auth);
+    removeItem(StorageItem.FirstName);
+    removeItem(StorageItem.isAdmin);
     this.isLoggedIn$.next(false);
+    this.isAdmin$.next(false);
     this.router.navigate(['auth/login'])
   }
 

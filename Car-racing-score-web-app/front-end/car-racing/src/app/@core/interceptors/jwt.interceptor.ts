@@ -5,7 +5,6 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// import { environment } from '@env/environment';
 import { getItem, removeItem, setItem, StorageItem } from '../../@core/utils';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -20,7 +19,6 @@ export class JwtInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const isLoggedIn = this.authService.isLoggedIn$.getValue();
     const token = getItem(StorageItem.Auth);
-    // const isApiUrl = request.url.startsWith(environment.apiUrl);
     
     if (isLoggedIn) {
       request = request.clone({

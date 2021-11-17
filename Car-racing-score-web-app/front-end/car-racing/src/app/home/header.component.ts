@@ -11,12 +11,6 @@ import { AuthService } from '../auth/auth.service';
             <mat-icon>menu</mat-icon>
           </button>
           <span *ngIf='isAdmin$'>Admin Dashboard</span>
-          <!-- <button *ngIf='isAdmin$' mat-icon-button class="example-icon" aria-label="Add racing detail">
-            <span>Add Racing</span>
-          </button>
-          <button *ngIf='isAdmin$' mat-icon-button class="example-icon" aria-label="Add racing detail">
-            <span>View Racings</span>
-          </button> -->
           
           <span class="example-spacer"></span>
           <span>{{firstName}} </span>

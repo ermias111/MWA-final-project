@@ -6,10 +6,6 @@ import { loginI } from './dto/loginDto';
 @Component({
   selector: 'app-login',
   template: `
-    <!-- <p>
-      <button [routerLink]="['/home/userhome']" (click)='login(loginData)'>login</button>
-      login works!
-    </p> -->
 
     <mat-card>
         <mat-card-title>Login</mat-card-title>
