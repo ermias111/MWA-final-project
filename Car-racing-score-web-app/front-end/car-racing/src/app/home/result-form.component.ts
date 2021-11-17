@@ -34,7 +34,7 @@ import { DialogData } from './dto/DialogData';
         <p>
           <mat-form-field >
             <mat-label>Rank</mat-label>
-            <input matInput formControlName="rank">
+            <input matInput placeholder='rank' formControlName="rank">
           </mat-form-field>
         </p>  
     
@@ -75,7 +75,7 @@ export class ResultFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     ){
     this.resultForm = this.formBuilder.group({
-      'rank': [0, Validators.required],
+      'rank': ['', Validators.required],
       'finishTime': ['', Validators.required],
       'name': ['', Validators.required],
       'country': ['', Validators.required]
