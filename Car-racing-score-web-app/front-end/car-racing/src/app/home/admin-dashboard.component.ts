@@ -4,11 +4,13 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-admin-dashboard',
   template: `
     <mat-tab-group>
-      <mat-tab label="Add Racing"> 
+      <mat-tab label="Add Racing" > 
         <racing-form></racing-form>
       </mat-tab>
       <mat-tab label="View Racing"> 
-        <app-user-home></app-user-home>
+        <ng-template matTabContent>
+          <app-user-home  ></app-user-home>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   `,

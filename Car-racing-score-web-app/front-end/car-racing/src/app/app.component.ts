@@ -10,15 +10,11 @@ import { getItem, removeItem, setItem, StorageItem } from './@core/utils';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  isLoggedIn$!:Observable<Boolean>;
-  // isThereASession$: Observable<unknown> = of(true);
+  isLoggedIn$!:Observable<boolean>;
 
   constructor(private authService: AuthService){}
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
-    // if(getItem(StorageItem.Auth)){
-    //   this.isThereASession$ = of(true);
-    // }
   }
 }

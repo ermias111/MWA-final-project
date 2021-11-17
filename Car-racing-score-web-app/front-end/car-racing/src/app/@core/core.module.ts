@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JwtInterceptor } from './interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CheckClickDirective } from './directives/check-click.directive';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CheckClickDirective
+  ],
   imports: [
     CommonModule
   ],

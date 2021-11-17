@@ -16,7 +16,7 @@ async function handleGetAll(req, res, next){
 }
 
 async function handleDelete(req, res, next){
-    const { id } = req.query;
+    const { id } = req.params;
     try{
         await Racing.deleteOne({_id: id}, (err, data) => {
             if(err){
@@ -32,13 +32,14 @@ async function handleDelete(req, res, next){
 
 
 async function handleGetById(req, res, next){
-    const { id } = req.query;
+    const { id } = req.params;
     try{
         await Racing.findOne({_id: id}, (err, data) => {
             if(err){
                 return next(err);
             }else{
-                res.send("Data deleted successfully");
+                console.log(data)
+                res.json(data);
             }
         })
     }catch(err){
@@ -64,7 +65,6 @@ async function handlePost(req, res, next){
 
 async function handleAddResult(req, res, next){
     const { id } = req.params
-    console.log("++++++++++++++++++++++++++++++")
     try{
         await Racing.updateOne({_id: id}, {
             $push: {result: req.body}

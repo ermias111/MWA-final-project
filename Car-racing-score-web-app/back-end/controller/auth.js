@@ -13,13 +13,13 @@ async function handleLogin(req, res, next){
                     if (!validPass) return res.status(401).send("username or Password is incorrect");
                     
                     // Create and assign token
-                    let userInfo = { id: user._id, role: user.role };
+                    let userInfo = { id: user._id, role: user.role, firstName: user.firstName };
                     const token = jwt.sign(userInfo, process.env['TOKEN_SECRET']);
                     const {password, __v, _id, ...payload} = user._doc;
                     res.status(200).header("auth-token", token).json({
                         status: 'success', 
-                        token: token ,
-                        payload: payload
+                        token: token 
+                        // payload: payload
                     });
                 }else{
                     res.status(401).send('Invalid login')
@@ -36,42 +36,42 @@ async function handleRegister(req, res, next){
 
     try{
         
-        // await User.findOne({userName: req.body.userName}, (err, data) => {
-        //     if(data){
-        //         return next(new Error("username already exists!"));
-        //     }else{
-        //         return next(new Error("error"))
-        //     }
-        // })
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(req.body.password, salt);
-    
-        let user = new User({
-            firstName: req.body.firstName,
-            lastName:  req.body.lastName,
-            email:  req.body.email,
-            userName:  req.body.userName,
-            password:  hashPassword,
-            profileImage: '', 
-            role: req.body.role
-        })
+        await User.findOne({userName: req.body.userName}, async (err, data) => {
+            if(data){
+                return next(new Error("username already exists!"));
+            }else{
+                const salt = await bcrypt.genSalt(10);
+                const hashPassword = await bcrypt.hash(req.body.password, salt);
+            
+                let user = new User({
+                    firstName: req.body.firstName,
+                    lastName:  req.body.lastName,
+                    email:  req.body.email,
+                    userName:  req.body.userName,
+                    password:  hashPassword,
+                    profileImage: '', 
+                    role: req.body.role
+                })
 
-    
-        await user.save((err, registeredUser) => {
-            if(err){
-                console.log(err);
-            } else {
-                let payload_for_token = { id: registeredUser._id, user_type_id: req.body.user_type_id || 0 };
-                console.log(registeredUser);
-                let { __v, _id, password, ...payload } = registeredUser;
-                const token = jwt.sign(payload_for_token, process.env['TOKEN_SECRET']);
-                res.status(200).header("auth-token", token).json({
-                    status: 'success', 
-                    token: token ,
-                    payload: payload
-                });
+            
+                await user.save((err, registeredUser) => {
+                    if(err){
+                        console.log(err);
+                    } else {
+                        let payload_for_token = { id: registeredUser._id, role: registeredUser.role, firstName: registeredUser.firstName };
+                        // console.log(registeredUser);
+                        let { firstName } = registeredUser._doc;
+                        const token = jwt.sign(payload_for_token, process.env['TOKEN_SECRET']);
+                        res.status(200).header("auth-token", token).json({
+                            status: 'success', 
+                            token: token 
+                            // payload: payload
+                        });
+                    }
+                })
             }
         })
+        
     }catch(err){
         console.log(err);
     }

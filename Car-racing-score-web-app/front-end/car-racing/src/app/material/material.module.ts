@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatTableModule } from '@angular/material/table'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
@@ -23,7 +25,9 @@ const modules = [
   MatIconModule,
   MatTabsModule,
   MatDialogModule,
-  MatTableModule
+  MatTableModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 
@@ -40,7 +44,9 @@ const modules = [
     MatIconModule,
     MatTabsModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: modules
 })
