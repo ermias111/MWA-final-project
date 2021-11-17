@@ -13,13 +13,13 @@ async function handleLogin(req, res, next){
                     if (!validPass) return res.status(401).send("username or Password is incorrect");
                     
                     // Create and assign token
-                    let userInfo = { id: user._id, role: user.role };
+                    let userInfo = { id: user._id, role: user.role, firstName: user.firstName };
                     const token = jwt.sign(userInfo, process.env['TOKEN_SECRET']);
                     const {password, __v, _id, ...payload} = user._doc;
                     res.status(200).header("auth-token", token).json({
                         status: 'success', 
-                        token: token ,
-                        payload: payload
+                        token: token 
+                        // payload: payload
                     });
                 }else{
                     res.status(401).send('Invalid login')
@@ -58,15 +58,14 @@ async function handleRegister(req, res, next){
                     if(err){
                         console.log(err);
                     } else {
-                        let payload_for_token = { id: registeredUser._id, user_type_id: req.body.user_type_id || 0 };
+                        let payload_for_token = { id: registeredUser._id, role: registeredUser.role, firstName: registeredUser.firstName };
                         // console.log(registeredUser);
-                        let { __v, _id, password, ...payload } = registeredUser._doc;
-                        console.log(payload);
+                        let { firstName } = registeredUser._doc;
                         const token = jwt.sign(payload_for_token, process.env['TOKEN_SECRET']);
                         res.status(200).header("auth-token", token).json({
                             status: 'success', 
-                            token: token ,
-                            payload: payload
+                            token: token 
+                            // payload: payload
                         });
                     }
                 })

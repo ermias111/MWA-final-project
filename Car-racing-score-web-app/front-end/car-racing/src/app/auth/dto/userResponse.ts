@@ -1,15 +1,6 @@
-export interface UserResponse{
-    payload: {
-        email: String,
-        firstName: String,
-        lastName: String,
-        profileImage: String,
-        role: String,
-        userName: String,
-    }
-        
+export interface UserResponse{        
     status: String,
-    token: String
+    token: string
 }
 
 export interface SignupResponse{

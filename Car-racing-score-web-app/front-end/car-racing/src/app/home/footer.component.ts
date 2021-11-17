@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-footer',
   template: `
     <p>
-      footer works!
+      <!-- footer works! -->
     </p>
   `,
   styles: [

@@ -6,6 +6,7 @@ import { loginI } from './dto/loginDto';
 import { signupI } from './dto/signupDto';
 import { UserResponse, SignupResponse } from './dto/userResponse';
 import { getItem, removeItem, setItem, StorageItem } from '../@core/utils';
+import jwt_decode from 'jwt-decode';
 
 
 @Injectable({
@@ -26,15 +27,18 @@ export class AuthService {
     try{
       let response : UserResponse | undefined = await this.http.post<UserResponse>('http://localhost:3000/auth/login', loginDto).toPromise();
       this.isLoggedIn$.next(true);
+      let decoded : any = jwt_decode(response!.token);
         setItem(StorageItem.Auth, response!.token);
-
+        
         // Since we are not using redux we used the local storage to save user state
-        setItem(StorageItem.FirstName, response?.payload.firstName)
-
-        if(response!.payload.role === 'admin'){
+        setItem(StorageItem.FirstName, decoded.firstName)
+        console.log(decoded.role === 'admin')
+        
+        if(decoded.role === 'admin'){
           this.isAdmin$.next(true);
           this.router.navigate(['/home/admindashboard']);
         }else{
+          this.isAdmin$.next(false);
           this.router.navigate(['/home/userhome']);
         }
     }catch(err){
@@ -45,15 +49,18 @@ export class AuthService {
   async signUp(signupDto: signupI){
     try{
       let response : UserResponse | undefined = await this.http.post<UserResponse>('http://localhost:3000/auth/signup', signupDto).toPromise()
+      let decoded : any = jwt_decode(response!.token);
+
       this.isLoggedIn$.next(true);
       setItem(StorageItem.Auth, response!.token);
-      setItem(StorageItem.FirstName, response?.payload.firstName)
+      setItem(StorageItem.FirstName, decoded.firstName)
 
       // console.log(response!.payload)
-      if(response!.payload.role === 'admin'){
+      if(decoded.role === 'admin'){
         this.isAdmin$.next(true);
         this.router.navigate(['/home/admindashboard']);
       }else{
+        this.isAdmin$.next(false);
         this.router.navigate(['/home/userhome']);
       }
     }catch(err){
