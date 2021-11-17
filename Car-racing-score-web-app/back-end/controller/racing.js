@@ -67,7 +67,10 @@ async function handleAddResult(req, res, next){
     const { id } = req.params
     try{
         await Racing.updateOne({_id: id}, {
-            $push: {result: req.body}
+            $push: {result: {
+                $each: [req.body],
+                $sort: {rank: 1}
+            }}
         }, (err, data) => {
             if(err) {
                 return next(err);

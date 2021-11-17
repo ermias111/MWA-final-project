@@ -8,6 +8,7 @@ import { HomeModule } from './home/home.module';
 import { WelcomePageComponent } from './home/welcome-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './auth/login.component';
+import { CoreModule } from './@core/core.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { LoginComponent } from './auth/login.component';
     HttpClientModule,
     HomeModule,
     BrowserAnimationsModule,
+    CoreModule,
     RouterModule.forRoot([
       {
         path: '',
