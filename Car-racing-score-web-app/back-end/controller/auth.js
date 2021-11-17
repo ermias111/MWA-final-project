@@ -59,13 +59,10 @@ async function handleRegister(req, res, next){
                         console.log(err);
                     } else {
                         let payload_for_token = { id: registeredUser._id, role: registeredUser.role, firstName: registeredUser.firstName };
-                        // console.log(registeredUser);
-                        let { firstName } = registeredUser._doc;
                         const token = jwt.sign(payload_for_token, process.env['TOKEN_SECRET']);
                         res.status(200).header("auth-token", token).json({
                             status: 'success', 
                             token: token 
-                            // payload: payload
                         });
                     }
                 })

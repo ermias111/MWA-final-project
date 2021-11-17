@@ -1,5 +1,6 @@
 export enum StorageItem {
   Auth = 'App/auth',
+  isAdmin = 'isAdmin',
   FirstName = 'FirstName'
 }
 

@@ -22,13 +22,6 @@ export interface ResultElement {
           <mat-card-subtitle>{{racing.date.split('T')[0]}}</mat-card-subtitle>
         </mat-card-title-group>
         <mat-card-content>
-          <!-- <mat-selection-list [multiple]="false">
-            <mat-list-option *ngFor="let result of racing.result" [value]="result">
-            {{result.rank}}.  {{result.driverDetail.name}}
-            {{result.finishTime }}
-            </mat-list-option>
-          </mat-selection-list> -->
-
          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
               <ng-container matColumnDef="rank">
                 <th mat-header-cell *matHeaderCellDef>Rank</th>
@@ -83,6 +76,7 @@ export interface ResultElement {
 export class ResultComponent implements OnInit {
   @Input() racing:any;
   @Output() changeOnRacing: EventEmitter<number> = new EventEmitter<number>();
+  isAdmin$: any;
   dataSource: any;
   @ViewChild(MatTable) table!: MatTable<any>;
   
@@ -92,10 +86,11 @@ export class ResultComponent implements OnInit {
       public dialog: MatDialog
     ) { 
     }
-  isAdmin$ = this.authService.isAdmin$.getValue();
+  
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.racing.result);
+    this.isAdmin$ = this.authService.isAdmin$.getValue();
   }
   displayedColumns: string[] = ['rank', 'name', 'finishtime'];
 

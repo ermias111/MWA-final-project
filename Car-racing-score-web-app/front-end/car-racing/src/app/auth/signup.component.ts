@@ -13,7 +13,7 @@ import { signupI } from './dto/signupDto';
     <mat-card>
         <mat-card-title>Signup</mat-card-title>
         <mat-card-content>
-          <form [formGroup]="form" (ngSubmit)="submit()">
+          <form [formGroup]="signupForm" (ngSubmit)="submit()">
           <p>
               <mat-form-field>
                 <input type="text" matInput placeholder="first name" formControlName="firstName">
@@ -29,7 +29,7 @@ import { signupI } from './dto/signupDto';
             <p>
               <mat-form-field>
                 <input type="text" matInput placeholder="Username" formControlName="userName">
-                <mat-error *ngIf="!form.get('userName')?.valid">
+                <mat-error *ngIf="!signupForm.get('userName')?.valid">
                   Invalid Username
                 </mat-error>
               </mat-form-field>
@@ -38,7 +38,7 @@ import { signupI } from './dto/signupDto';
             <p>
               <mat-form-field>
                 <input type="password" matInput placeholder="Password" formControlName="password">
-                <mat-error *ngIf="!form.get('password')?.valid">
+                <mat-error *ngIf="!signupForm.get('password')?.valid">
                   password length must be more than 8
                 </mat-error>
               </mat-form-field>
@@ -51,7 +51,7 @@ import { signupI } from './dto/signupDto';
             </p>
 
             <div class="button">
-              <button type="submit" [disabled]='this.form.invalid' mat-button>Signup</button>
+              <button type="submit" [disabled]='this.signupForm.invalid' mat-button>Signup</button>
             </div>
             <a [routerLink]="['/auth/login']">login</a>
 
@@ -96,32 +96,22 @@ import { signupI } from './dto/signupDto';
   ]
 })
 export class SignupComponent implements OnInit {
-  form: FormGroup ;
-
-
-  // signupData = {
-  //   firstName: "Hlina",
-  //   lastName: "Adem",
-  //   userName: "hli",
-  //   password: "12345",
-  //   role: 'user'
-  // }
-  
+  signupForm: FormGroup ;
   
 
   submit() {
     let signupData = {
-      firstName: this.form.get(['firstName'])?.value,
-      lastName: this.form.get(['lastName'])?.value,
-      userName: this.form.get(['userName'])?.value,
-      password: this.form.get(['password'])?.value,
+      firstName: this.signupForm.get(['firstName'])?.value,
+      lastName: this.signupForm.get(['lastName'])?.value,
+      userName: this.signupForm.get(['userName'])?.value,
+      password: this.signupForm.get(['password'])?.value,
       email: '',
       profileImage: '',
       role: 'user'
     }
     
-    if (this.form.valid) {
-      this.submitEM.emit(this.form.value);
+    if (this.signupForm.valid) {
+      this.submitEM.emit(this.signupForm.value);
       this.signup(signupData)
     }
   }
@@ -130,7 +120,7 @@ export class SignupComponent implements OnInit {
   @Output() submitEM = new EventEmitter();
   
   constructor(private authService: AuthService, private fb :FormBuilder) { 
-    this.form = this.fb.group({
+    this.signupForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       userName: ['', [Validators.required, Validators.minLength(4)]],
